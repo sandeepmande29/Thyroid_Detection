@@ -14,11 +14,14 @@ class DataTransformation:
     
     def __init__(self,config: DataTransformationConfig):
         self.config = config
-         
+
+    def get_data(self):
+        data = pd.read_csv(self.config.data_path)
+        return data
          
 
     def dropUnnecessaryColumns(self,data,columnNameList): 
-        data= data = pd.read_csv(self.config.data_path)
+        #data = pd.read_csv(self.config.data_path)
         data = data.drop(columnNameList,axis=1)
         return data
    

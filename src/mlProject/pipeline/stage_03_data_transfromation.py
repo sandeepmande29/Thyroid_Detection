@@ -5,7 +5,6 @@ from pathlib import Path
 
 
 
-
 STAGE_NAME = "Data Transformation stage"
 
 class DataTransformationTrainingPipeline:
@@ -19,14 +18,25 @@ class DataTransformationTrainingPipeline:
                 status = f.read().split(" ")[-1]
 
             if status == "True":
-                config = ConfigurationManager()
+                config = ConfigurationManager ()
                 data_transformation_config = config.get_data_transformation_config()
+
                 data_trnsformation = DataTransformation( config = data_transformation_config)
-                data = data_trnsformation.dropUnnecessaryColumns(data,['TSH_measured','T3_measured','TT4_measured','T4U_measured','FTI_measured','TBG_measured','TBG','TSH'])
+                data = data_trnsformation.get_data()
+
+                data= data_trnsformation.dropUnnecessaryColumns(data,['TSH_measured','T3_measured','TT4_measured','T4U_measured','FTI_measured','TBG_measured','TBG','TSH'])
+                
                 data = data_trnsformation.replaceInvalidValuesWithNull(data)
+
                 data = data_trnsformation.encodeCategoricalValues(data)
+
                 data= data_trnsformation.impute_missing_values(data)
+                
                 data = data_trnsformation.train_test_spliting(data)
+
+
+
+                
 
             else:
                 raise Exception("You data schema is not valid")
