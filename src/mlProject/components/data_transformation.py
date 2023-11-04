@@ -6,9 +6,9 @@ from sklearn.impute import KNNImputer
 import numpy as np
 from mlProject import logger
 from sklearn.model_selection import train_test_split
+from imblearn.over_sampling import RandomOverSampler
 import os 
 from mlProject.entity.config_entity import DataTransformationConfig
-
 
 class DataTransformation:
     
@@ -18,6 +18,7 @@ class DataTransformation:
     def get_data(self):
         data = pd.read_csv(self.config.data_path)
         return data
+         
          
 
     def dropUnnecessaryColumns(self,data,columnNameList): 
@@ -73,20 +74,35 @@ class DataTransformation:
         
         return data
     
+    
+    def separate_label_feature(self, data, label_column_name):
+    
+        X=data.drop(labels=label_column_name,axis=1) # drop the columns specified and separate the feature columns
+        Y=data[label_column_name] # Filter the Label columns
+        
+        return X,Y
 
-    def train_test_spliting(self,data):
+    def handleImbalanceDataset(self, X,Y):
+         
+        rdsmple = RandomOverSampler()
+        X_sampled,Y_sampled = rdsmple.fit_resample(X,Y)
+
+        return X_sampled,Y_sampled
+
+    def train_test_spliting(self,X_sampled,Y_sampled):
         #data = pd.read_csv(self.config.data_path)
 
         # Split the data into training and test sets. (0.75, 0.25) split.
-        train, test = train_test_split(data)
+        x_train,x_test,y_train,y_test = train_test_split(X_sampled,Y_sampled,test_size = .25, random_state = 144)
 
-        train.to_csv(os.path.join(self.config.root_dir, "train.csv"),index = False)
-        test.to_csv(os.path.join(self.config.root_dir, "test.csv"),index = False)
-
+        x_train.to_csv(os.path.join(self.config.root_dir, "x_train.csv"),index = False)
+        x_test.to_csv(os.path.join(self.config.root_dir, "x_test.csv"),index = False)
+        y_train.to_csv(os.path.join(self.config.root_dir, "y_train.csv"),index = False)
+        y_test.to_csv(os.path.join(self.config.root_dir, "y_test.csv"),index = False)
         logger.info("Splited data into training and test sets")
-        logger.info(train.shape)
-        logger.info(test.shape)
+        logger.info(x_train.shape)
+        logger.info(x_test.shape)
 
-        print(train.shape)
-        print(test.shape)
+        print(x_train.shape)
+        print(x_test.shape)
     
