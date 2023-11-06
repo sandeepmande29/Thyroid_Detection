@@ -89,8 +89,7 @@ class DataTransformation:
 
         return X_sampled,Y_sampled
 
-    def train_test_spliting(self,X_sampled,Y_sampled):
-        #data = pd.read_csv(self.config.data_path)
+    def train_test_spliting(self,X_sampled,Y_sampled): 
 
         # Split the data into training and test sets. (0.75, 0.25) split.
         x_train,x_test,y_train,y_test = train_test_split(X_sampled,Y_sampled,test_size = .25, random_state = 144)
