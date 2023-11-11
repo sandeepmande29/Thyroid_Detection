@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/hp/Desktop/ML/project/Thyroid_Detection/mlruns/0/aa57102a1c2d4acf87419f039b9128da/artifacts
+end_time: 1699673092727
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: aa57102a1c2d4acf87419f039b9128da
+run_name: likeable-calf-281
+run_uuid: aa57102a1c2d4acf87419f039b9128da
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1699673086169
+status: 3
+tags: []
+user_id: hp
